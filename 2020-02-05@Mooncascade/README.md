@@ -12,7 +12,7 @@ Tartu mnt. 43, Tallinn
 ## Talks
 
 * [Stupid Simple! ](Stupid%20simple!%20-%20Vladimir%20Andrianov.pdf), by Vladimir Andrianov where he talks about how he writes Go code such that it is readable and understandable.
-* The State of WebAssembly in Go, by Matias Insaurralde from Paraguay where he introduces WebAssembly and how you can use it
+* [The State of WebAssembly in Go](The%20state%20of%20WebAssembly%20in%20Go%20-%20Matias%20Insaurralde.pdf), by Matias Insaurralde from Paraguay where he introduces WebAssembly and how you can use it
 * A Tale of Performant Breadth-First-Search, by Egon Elbre where he covers the basics of performance optimization.
 
 ## Lightning Talks

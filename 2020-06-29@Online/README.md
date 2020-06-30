@@ -2,7 +2,7 @@
 
 ## When
 
-Wednesday, June 29, 2020 @ 19:00 to 20:30
+Monday, June 29, 2020 @ 19:00 to 20:30
 
 ## Talks
 

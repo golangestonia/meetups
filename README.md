@@ -6,6 +6,7 @@ This is a group for people interested in the Go programming language in Estonia.
 
 Please maintain the list in a descending order based on the date the meetup has been held.
 
+* [2022-03-24 Remote](2022-03-23@Online)
 * [2020-10-28 at the University of Tartu Delta Center](2020-10-28@UniTartuDelta)
 * [2020-06-29 Remote](2020-06-29@Online)
 * [2020-02-05 at Mooncascade](2020-02-05@Mooncascade)

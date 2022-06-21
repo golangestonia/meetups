@@ -1,2 +1,9 @@
+github.com/davecgh/go-spew v0.0.0-20161028175848-04cdfd42973b/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/pmezard/go-difflib v0.0.0-20151028094244-d8ed2627bdf0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/sanity-io/litter v1.5.1 h1:dwnrSypP6q56o3lFxTU+t2fwQ9A+U5qrXVO4Qg9KwVU=
+github.com/sanity-io/litter v1.5.1/go.mod h1:5Z71SvaYy5kcGtyglXOC9rrUi3c1E8CamFWjQsazTh0=
+github.com/stretchr/testify v0.0.0-20161117074351-18a02ba4a312/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
+github.com/thepudds/fzgen v0.4.2 h1:HlEHl5hk2/cqEomf2uK5SA/FeJc12s/vIHmOG+FbACw=
+github.com/thepudds/fzgen v0.4.2/go.mod h1:kHCWdsv5tdnt32NIHYDdgq083m6bMtaY0M+ipiO9xWE=
 golang.org/x/exp v0.0.0-20220613132600-b0d781184e0d h1:vtUKgx8dahOomfFzLREU8nSv25YHnTgLBn4rDnWZdU0=
 golang.org/x/exp v0.0.0-20220613132600-b0d781184e0d/go.mod h1:Kr81I6Kryrl9sr8s2FK3vxD90NdsKWRuOIl2O4CvYbA=

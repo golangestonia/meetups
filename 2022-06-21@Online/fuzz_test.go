@@ -9,7 +9,8 @@
 //   https://go.dev/doc/tutorial/fuzz
 //   https://go.dev/doc/fuzz/
 //
-// Trophies https://github.com/dvyukov/go-fuzz#trophies
+// Trophies:
+//   https://github.com/dvyukov/go-fuzz#trophies
 
 package main
 
@@ -48,7 +49,7 @@ func FuzzEquals(f *testing.F) {
 
 /*
 go test -fuzz FuzzEquals
-// skip tests
+
 go test -fuzz FuzzEquals -run ZZZ
 
 	-fuzztime:
@@ -229,12 +230,12 @@ func FuzzServer(f *testing.F) {
 	})
 }
 
-// Other tools:
-//
-//   https://github.com/thepudds/fzgen
-//   https://github.com/catenacyber/ngolo-fuzzing
-
 /*
+	Other tools:
+
+	https://github.com/thepudds/fzgen
+	https://github.com/catenacyber/ngolo-fuzzing
+
 	More reading
 
 	https://go.dev/doc/tutorial/fuzz

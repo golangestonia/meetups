@@ -15,11 +15,15 @@
 package main
 
 import (
+	"bytes"
 	"encoding/binary"
 	"encoding/json"
 	"math"
 	"net/http"
+	"net/http/httptest"
 	"testing"
+
+	"golang.org/x/exp/slices"
 )
 
 // Basic usage of fuzzing.
@@ -35,7 +39,13 @@ func Equals(a, b []byte) bool {
 
 // Notice the FuzzEquals folder that was created.
 
-// func FuzzEquals(f *testing.F) { }
+func FuzzEquals(f *testing.F) {
+	// arguments must be correct
+	f.Add([]byte{1}, []byte{1})
+	f.Fuzz(func(t *testing.T, a, b []byte) {
+		Equals(a, b)
+	})
+}
 
 /*
 go test -fuzz FuzzEquals
@@ -56,7 +66,18 @@ func Add(a, b int64) int64 {
 	return a + b
 }
 
-// func FuzzAdd(f *testing.F) {}
+func FuzzAdd(f *testing.F) {
+	f.Add(int64(1), int64(2)) // few example inputs
+	f.Fuzz(func(t *testing.T, a, b int64) {
+		if Add(a, b) != Add(b, a) {
+			t.Errorf("a + b != b + a")
+		}
+		r := Add(a, b)
+		if a > 0 && b > 0 && (a > r || b > r) {
+			t.Errorf("positive a and b are larger than r")
+		}
+	})
+}
 
 /*
 	Supported types
@@ -69,6 +90,9 @@ func Add(a, b int64) int64 {
 */
 
 func Dot(a, b []float64) float64 {
+	if len(a) != len(b) {
+		return math.NaN()
+	}
 	var t float64
 	for i := range a {
 		t += a[i] * b[i]
@@ -93,7 +117,22 @@ func float64sFromBytes(t *testing.T, b []byte) []float64 {
 	return xs
 }
 
-// func FuzzDot(f *testing.F) {}
+func FuzzDot(f *testing.F) {
+	f.Fuzz(func(t *testing.T, x, y []byte) {
+		a := float64sFromBytes(t, x)
+		b := float64sFromBytes(t, y)
+
+		forward := Dot(a, b)
+		Reverse(a)
+		Reverse(b)
+		reversed := Dot(a, b)
+		if !math.IsNaN(forward) {
+			if forward != reversed {
+				t.Errorf("forward and reverse results differ %v %v; a=%#v b=%#v", forward, reversed, a, b)
+			}
+		}
+	})
+}
 
 // Roundtrip:
 //   Encode + Decode of run-length encoding
@@ -123,7 +162,21 @@ func DecodeStrings(data []byte) ([]string, error) {
 	return vs, nil
 }
 
-// func FuzzEncodingThree(f *testing.F) { }
+func FuzzEncodingThree(f *testing.F) {
+	f.Add("", "", "")
+	f.Add("alpha", "beta", "gamma")
+	f.Fuzz(func(t *testing.T, a, b, c string) {
+		in := []string{a, b, c}
+		encoded := EncodeStrings(in)
+		decoded, err := DecodeStrings(encoded)
+		if err != nil {
+			t.Fatalf("decoding failed: %v", err)
+		}
+		if !slices.Equal(in, decoded) {
+			t.Fatalf("encode <-> decode failed %v != %v", in, decoded)
+		}
+	})
+}
 
 // Testing endpoints
 
@@ -152,7 +205,30 @@ func (server *EqualsServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
-// func FuzzServer(f *testing.F) { }
+func FuzzServer(f *testing.F) {
+	f.Fuzz(func(t *testing.T, a, b string) {
+		body, err := json.Marshal(Compare{A: a, B: b})
+		if err != nil {
+			t.Skip()
+		}
+
+		res := httptest.NewRecorder()
+		req := httptest.NewRequest(http.MethodGet, "/", bytes.NewReader(body))
+
+		(&EqualsServer{}).ServeHTTP(res, req)
+
+		switch {
+		case a == b:
+			if res.Code != http.StatusOK {
+				t.Error("wrong result")
+			}
+		case a != b:
+			if res.Code != http.StatusNotAcceptable {
+				t.Error("wrong result")
+			}
+		}
+	})
+}
 
 /*
 	Other tools:
